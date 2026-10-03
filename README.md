@@ -8,7 +8,7 @@ A lightweight Windows desktop viewer for PLY point clouds and meshes. Explore a 
 
 I asked OpenAI Codex to build this tool for my personal needs: viewing PLY point clouds from arbitrary angles and exporting images from a chosen camera pose. I provided the requirements and feedback, while Codex generated and iteratively revised the implementation, including fixes to navigation and large-cloud interaction.
 
-I am sharing the project in case it is useful to others with similar needs. It is a personal, Codex-built utility, not an official OpenAI product. The validation scope and remaining limitations are documented below.
+I am sharing the project in case it is useful to others with similar needs. It is a personal, Codex-built utility, not an official OpenAI product. 
 
 
 ## Features
