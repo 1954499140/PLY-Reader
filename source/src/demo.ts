@@ -1,0 +1,9 @@
+import {Color}from'three';import type{PlyData}from'./parse';
+export function demoData():PlyData{
+ const p:number[]=[],c:number[]=[];let seed=47;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
+ const surface=(o:number[],u:number[],v:number[],rgb:string,step=.038)=>{const nu=Math.max(2,Math.ceil(Math.hypot(...u)/step)),nv=Math.max(2,Math.ceil(Math.hypot(...v)/step));for(let a=0;a<=nu;a++)for(let b=0;b<=nv;b++){if(rand()<.12)continue;const t=a/nu,s=b/nv,color=new Color(rgb).multiplyScalar(.74+rand()*.26);p.push(o[0]+u[0]*t+v[0]*s,o[1]+u[1]*t+v[1]*s,o[2]+u[2]*t+v[2]*s);c.push(color.r,color.g,color.b);}};
+ const box=(x:number,y:number,z:number,w:number,d:number,h:number,rgb:string)=>{surface([x,y,z+h],[w,0,0],[0,d,0],rgb);surface([x,y,z],[w,0,0],[0,0,h],rgb);surface([x,y+d,z],[w,0,0],[0,0,h],rgb);surface([x,y,z],[0,d,0],[0,0,h],rgb);surface([x+w,y,z],[0,d,0],[0,0,h],rgb);};
+ surface([-3,-2,0],[6,0,0],[0,4,0],'#668180',.052);surface([-3,2,0],[6,0,0],[0,0,2.6],'#c4b3a3',.052);surface([-3,-2,0],[0,4,0],[0,0,2.6],'#9ca8a0',.052);
+ box(-2.55,.45,.18,2.5,1,.46,'#78b6aa');box(-2.55,1.28,.64,2.5,.18,.6,'#95d5c4');box(-2.55,.45,.58,.22,.9,.32,'#86c4b4');box(-.27,.45,.58,.22,.9,.32,'#86c4b4');box(-1.8,-1.3,.52,1.65,.95,.09,'#dfa779');for(const x of[-1.68,-.39])for(const y of[-1.19,-.51])box(x,y,0,.075,.075,.52,'#d5a37f');box(1.2,1.1,0,1.25,.64,.95,'#d3a481');box(1.23,1.07,.42,1.18,.03,.02,'#7c6f62');box(1.39,-.9,0,.08,.08,.74,'#b3bcbc');box(1.99,-.9,0,.08,.08,.74,'#b3bcbc');box(1.33,-.96,.74,.82,.74,.08,'#8fa9b9');box(1.33,-.26,.74,.82,.075,.75,'#9fc2d1');surface([-.2,1.97,1.35],[1.25,0,0],[0,0,.85],'#d8e0df',.032);
+ for(let i=0;i<p.length;i+=3)p[i+2]-=1.3;return{positions:new Float32Array(p),colors:new Float32Array(c),center:[0,0,1.3],extent:[6,4,2.6],count:p.length/3,triangles:0,format:'示例'};
+}

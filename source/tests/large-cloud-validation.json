@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "points": 3286152,
+  "interactive_points": 200000,
+  "draw_reduction": 16.43076,
+  "old_pivot_distance": 37.54621719960613,
+  "forward_travel": 79.82227719684738,
+  "full_resolution_export": true,
+  "errors": []
+}

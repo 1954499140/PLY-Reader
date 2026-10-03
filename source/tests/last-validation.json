@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "checks": [
+    "offline startup",
+    "WebGL render",
+    "mouse rotate with fixed target and radius",
+    "D does not override rotation",
+    "rotation after wheel",
+    "Escape restores rotation",
+    "load resets interaction",
+    "wheel zoom",
+    "right drag pan",
+    "view preset",
+    "PNG size and bytes",
+    "pose unchanged on export",
+    "2px interpolation export",
+    "ASCII/LE/BE import",
+    "invalid PLY recovery",
+    "compact layout"
+  ],
+  "png": [
+    1280,
+    997
+  ],
+  "errors": [],
+  "requests": []
+}

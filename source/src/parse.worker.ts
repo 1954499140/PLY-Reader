@@ -1,0 +1,2 @@
+import {parsePly}from './parse';
+self.onmessage=(event:MessageEvent<ArrayBuffer>)=>{try{const data=parsePly(event.data);const transfer=[data.positions.buffer,...(data.colors?[data.colors.buffer]:[]),...(data.indices?[data.indices.buffer]:[])]as ArrayBuffer[];self.postMessage({ok:true,data},{transfer});}catch(error){self.postMessage({ok:false,error:error instanceof Error?error.message:'无法读取此 PLY 文件。'});}};
