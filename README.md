@@ -10,7 +10,6 @@ I asked OpenAI Codex to build this tool for my personal needs: viewing PLY point
 
 I am sharing the project in case it is useful to others with similar needs. It is a personal, Codex-built utility, not an official OpenAI product. The validation scope and remaining limitations are documented below.
 
-> The application interface is currently in Chinese. This README provides English instructions and the corresponding Chinese labels where needed.
 
 ## Features
 
