@@ -1,4 +1,4 @@
-# PLY Studio
+# PLY Reader
 
 A lightweight Windows desktop viewer for PLY point clouds and meshes. Explore a scene from arbitrary angles, move through it with the mouse, and export the current camera view as a PNG image with optional small-gap interpolation.
 
