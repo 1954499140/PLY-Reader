@@ -58,15 +58,6 @@ The left toolbar switches the left button between rotation and panning. The hint
 
 The view menu is in the upper-right corner of the viewport. If a scene appears incorrectly oriented, change **向上方向** (Up axis) to Y or Z. Wheel navigation can pass through the previous rotation center; it is not restricted to approaching that center.
 
-## Export the current view
-
-1. Adjust the camera to the desired view.
-2. Under **生成像素图** (Generate image), choose the current viewport size or a long edge of 1280, 1920, 2560, or 3840 pixels.
-3. Optionally enable **空隙插值** (Gap interpolation) with a radius of 2 or 4 pixels. It is disabled by default.
-4. Click **生成图片** or **生成当前视角图片** (Generate current-view image).
-5. In the preview, click **保存 PNG** (Save PNG) and choose a local path.
-
-Export preserves camera position, orientation, field of view, and viewport aspect ratio. Reference grids and axes are excluded unless explicitly enabled. Large-cloud exports use all loaded points, rather than the interactive preview subset. Mesh and wireframe exports follow the selected display mode.
 
 ### What interpolation does
 
@@ -163,13 +154,3 @@ node tests/large-cloud.mjs
 ```
 
 Validation for this release includes TypeScript checks, seven core tests, Chromium browser tests, a large-cloud regression test, and Windows x64 cross-compilation. Browser validation used software WebGL on Linux. The native executable, WebView2 integration, and native save dialog have not yet been verified on a physical Windows installation. The executable is not commercially code-signed.
-
-## Contributing
-
-Bug reports should include the Windows version, GPU/driver, application version, reproduction steps, and the PLY encoding and approximate vertex count. Include a minimal shareable sample when possible. Please run the type check, core tests, and relevant browser tests before submitting changes.
-
-## License
-
-A project license has not yet been selected. Add a project-level `LICENSE` before publishing an open-source release.
-
-Third-party dependency notices are provided in [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt). Those notices describe the dependencies and do not define the license for this project's own code.
