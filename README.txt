@@ -1,64 +1,176 @@
-PLY Studio 1.1.1 — Windows 64 位点云查看器
+# PLY Studio
 
-开始使用
-1. 解压下载包。
-2. 双击 PLY-Studio.exe。无需 Python、Node.js 或 Go。
-3. 点击“打开 PLY”，或把 .ply 文件拖入三维视窗。
+A lightweight Windows desktop viewer for PLY point clouds and meshes. Explore a scene from arbitrary angles, move through it with the mouse, and export the current camera view as a PNG image with optional small-gap interpolation.
 
-系统要求
-Windows 10 / 11 x64，支持 WebGL 2 的显卡与驱动，Microsoft Edge WebView2 Runtime。
-如果提示缺少 WebView2，请从微软官网下载 Evergreen Runtime（x64）：
-https://developer.microsoft.com/microsoft-edge/webview2/
-运行时已安装后，本程序的查看和图片导出功能可离线使用。
+**Version:** 1.1.1 · **Platform:** Windows 10 / 11, x64
 
-鼠标与快捷键
-左键拖拽：自由旋转，可从顶部、底部或任意方向查看。
-右键拖拽：平移。
-滚轮：沿鼠标指向前进／后退，不受旧版旋转中心的缩放边界限制。
-Shift + 滚轮：十分之一速度精细移动。
-双击物体：将旋转中心移到该位置，并根据距离调整移动步长。
-左侧工具栏：切换左键旋转／平移，缩放，适配全部点云。
-按 Esc 恢复左键旋转；每次载入文件默认旋转。底部显示当前左键操作。
-禁用控件隐藏的 A/S/D 模式快捷键，避免覆盖鼠标操作。
-右上视角菜单：前、后、左、右、俯视、仰视。
-点选三维视窗后，方向键旋转，+ / - 缩放，F 适配全部点云。
-如果场景倒置，可切换“向上方向”为 Y 或 Z 轴。
+## Why this project exists
 
-生成当前位姿的像素图
-1. 先调整好鼠标视角。
-2. 在右侧设置输出分辨率。长边可选 1280 / 1920 / 2560 / 3840 px，或当前视窗尺寸。
-3. 选择是否进行空隙插值。默认关闭；可选半径 2 或 4 像素。
-4. 点击顶部“生成图片”，或右侧“生成当前视角图片”。
-5. 预览后点击“保存 PNG”，选择本地文件路径。
-导出保持相机位置、方向、视场角、当前宽高比与构图，不会改变相机位姿。
-默认不导出参考网格与坐标轴；可以单独勾选。
+I asked OpenAI Codex to build this tool for my personal needs: viewing PLY point clouds from arbitrary angles and exporting images from a chosen camera pose. I provided the requirements and feedback, while Codex generated and iteratively revised the implementation, including fixes to navigation and large-cloud interaction.
 
-插值说明
-采用二维投影图中的邻域线性插值，仅填补被有效且颜色相近的像素包围的小空隙。
-不向外部背景外推，不推断被遮挡的结构，也不进行三维表面重建。
-它是显示与导出功能，不等价于真实相机观测；研究定量评估建议关闭插值。
-点太稀疏时，可先适度提高“点大小”，再选择小空隙插值。
+I am sharing the project in case it is useful to others with similar needs. It is a personal, Codex-built utility, not an official OpenAI product. The validation scope and remaining limitations are documented below.
 
-支持与限制
-支持 ASCII、binary_little_endian、binary_big_endian PLY 1.0。
-支持 x/y/z 顶点、RGB 颜色和标准 face 顶点索引。无 RGB 时可使用高度着色。
-含面数据的 PLY 可以切换点云、表面与线框。
-交互时，大点云暂时显示最多 20 万个均匀抽样点；停止操作后恢复全量。
-PNG 导出始终使用全部原始点，不使用移动预览点。
-当前设定最大单文件 256 MB、最多 800 万个顶点；实际流畅程度受内存、显卡与点数影响。
-超大场景建议先降采样或裁剪。超大绝对坐标的点云建议先平移到局部坐标系，以减少浮点精度误差。
-不会上传或自动保存导入的 PLY。应用渲染资源已内嵌到 EXE，无需远程网页。
-WebView2 自身的本机缓存位于用户配置目录下的 PLYStudio/WebView2。
+> The application interface is currently in Chinese. This README provides English instructions and the corresponding Chinese labels where needed.
 
-验证范围
-已完成 TypeScript 类型检查、Windows x64 交叉编译、7 项核心数据测试。
-已在 Chromium 测试离线启动、WebGL 画面、旋转／平移／缩放、PNG 编码与尺寸、导出后位姿不变、
-插值、三种编码导入、错误文件恢复与紧凑窗口布局。测试未产生远程网络请求。
-尚未在真实 Windows 系统实机运行，原生窗口、WebView2 与保存对话框仍需实际机器确认。
-程序没有商业代码签名。
+## Features
 
-源码
-source/ 包含完整源码、锁定的依赖清单、构建脚本、测试代码和内嵌页面。
-如需重新构建：安装 Node.js 22.13+ 和 Go 1.25+，进入 source，执行 build-windows.ps1。
-首次构建需联网下载依赖；运行已编译 EXE 不需要开发环境。
-开源依赖授权见 THIRD_PARTY_LICENSES.txt。
+- Open PLY files through a file picker or drag and drop.
+- Rotate, pan, and move forward or backward along the cursor direction.
+- Set the rotation center by double-clicking a point or surface.
+- Switch between front, back, left, right, top, and bottom views.
+- Display original RGB colors, height colors, or a uniform color.
+- Adjust point size, background, reference grid, coordinate axes, and the Y/Z up axis.
+- View point clouds, mesh surfaces, or wireframes when face data is available.
+- Use a preview of 200,000 sampled points while interacting with large point clouds, then restore the full cloud when movement stops.
+- Export PNG images from the current camera pose, using full-resolution geometry.
+- Run the viewer and export images offline after installing the required runtime.
+
+## Run on Windows
+
+1. Extract `PLY-Studio-Windows-x64.zip`.
+2. Launch `PLY-Studio.exe` from the extracted `PLY-Studio` folder.
+3. Click **打开 PLY** (Open PLY), or drag a `.ply` file into the viewport.
+
+Running the executable does not require Python, Node.js, or Go.
+
+### Requirements
+
+- Windows 10 or Windows 11, 64-bit x64.
+- A GPU and graphics driver that support WebGL 2.
+- Microsoft Edge WebView2 Runtime.
+
+If the runtime is missing, install the Evergreen x64 runtime from the [Microsoft WebView2 download page](https://developer.microsoft.com/microsoft-edge/webview2/).
+
+## Controls
+
+| Input | Action |
+| --- | --- |
+| Left-button drag | Rotate around the current target by default |
+| Right-button or middle-button drag | Pan |
+| Mouse wheel | Move forward/backward along the cursor ray |
+| Shift + mouse wheel | Move at one tenth of the normal speed |
+| Double-click a point or surface | Set the rotation target and adjust the movement step |
+| Esc | Restore left-button rotation when the image preview is closed |
+| Arrow keys | Rotate; focus the viewport first |
+| `+` / `-` | Move forward/backward; focus the viewport first |
+| `F` | Fit the entire scene; focus the viewport first |
+
+The left toolbar switches the left button between rotation and panning. The hint at the bottom of the viewport shows the active action. Loading a file restores rotation mode. The underlying controls' A/S/D mode shortcuts are disabled to prevent them from overriding mouse input.
+
+The view menu is in the upper-right corner of the viewport. If a scene appears incorrectly oriented, change **向上方向** (Up axis) to Y or Z. Wheel navigation can pass through the previous rotation center; it is not restricted to approaching that center.
+
+## Export the current view
+
+1. Adjust the camera to the desired view.
+2. Under **生成像素图** (Generate image), choose the current viewport size or a long edge of 1280, 1920, 2560, or 3840 pixels.
+3. Optionally enable **空隙插值** (Gap interpolation) with a radius of 2 or 4 pixels. It is disabled by default.
+4. Click **生成图片** or **生成当前视角图片** (Generate current-view image).
+5. In the preview, click **保存 PNG** (Save PNG) and choose a local path.
+
+Export preserves camera position, orientation, field of view, and viewport aspect ratio. Reference grids and axes are excluded unless explicitly enabled. Large-cloud exports use all loaded points, rather than the interactive preview subset. Mesh and wireframe exports follow the selected display mode.
+
+### What interpolation does
+
+Interpolation fills short gaps in the 2D projection using nearby pixels with similar colors on opposite sides of the gap. It does not extrapolate into the surrounding background, infer occluded geometry, or reconstruct a 3D surface.
+
+The exported image is a rendering, not a real camera observation. For quantitative research evaluation, leave interpolation disabled unless this processing is part of the experiment. Increasing point size can also help visualize sparse clouds.
+
+## Supported files and limits
+
+- PLY 1.0: ASCII, binary little-endian, and binary big-endian.
+- Vertex positions (`x`, `y`, `z`), optional RGB colors, and standard face vertex indices.
+- Height coloring is available when RGB is absent.
+- Maximum file size: 256 MiB.
+- Maximum vertex count: 8,000,000.
+- Actual performance depends on geometry size, available memory, and GPU capability. Interactive subsampling currently applies to point-cloud display, not mesh rendering.
+- Very large absolute coordinates may lose floating-point precision; translate such data into a local coordinate system before loading when necessary.
+
+## Local processing
+
+PLY parsing and rendering run locally. The application does not upload or automatically save imported PLY files. The renderer, styles, and scripts are embedded in the executable; no remote web page is required.
+
+WebView2 maintains its local profile under the user's configuration directory in `PLYStudio/WebView2`. PNG images are written only when saved through the export dialog.
+
+## Build from source
+
+The release archive includes a `source/` directory. For a GitHub repository, use the contents of that directory as the repository root.
+
+### Prerequisites
+
+- Node.js 22.13 or newer, with npm.
+- Go 1.25 or newer.
+- Windows PowerShell for the provided build script.
+- Internet access for the initial dependency download.
+
+From the repository root, run:
+
+```powershell
+.\build-windows.ps1
+```
+
+The script installs the locked npm dependencies, builds the embedded frontend, checks TypeScript types, and compiles `PLY-Studio.exe` in the repository root. WebView2 is required to run the executable, but not to compile it.
+
+For a manual Windows build:
+
+```powershell
+npm ci
+npm run build
+npx tsc --noEmit
+$env:GOOS = "windows"
+$env:GOARCH = "amd64"
+$env:CGO_ENABLED = "0"
+go build -buildvcs=false -trimpath -ldflags="-H windowsgui -s -w" -o PLY-Studio.exe .
+```
+
+The checked-in `resource_windows_amd64.syso` contains the application icon and manifest. If you modify either source asset, regenerate this file before building:
+
+```powershell
+go run github.com/akavel/rsrc@v0.10.2 -manifest app.manifest -ico icon.ico -arch amd64 -o resource_windows_amd64.syso
+```
+
+### Project layout
+
+| Path | Purpose |
+| --- | --- |
+| `main_windows.go` | Native window, embedded page, and PNG save dialog |
+| `src/viewer.ts` | Three.js rendering, camera controls, previews, and image capture |
+| `src/main.ts` | Interface events and file-loading workflow |
+| `src/parse.ts`, `src/parse.worker.ts` | PLY parsing and background worker |
+| `src/interpolate.ts` | Optional 2D gap interpolation |
+| `src/index.html`, `src/style.css` | Interface structure and styling |
+| `web/index.html` | Generated offline page embedded in the executable |
+| `build.mjs`, `build-windows.ps1` | Frontend and Windows build scripts |
+| `tests/` | Parser, interpolation, and browser regression tests |
+
+## Tests and validation
+
+Install dependencies and build the frontend before running tests:
+
+```powershell
+npm ci
+npm run build
+npx tsc --noEmit
+npm test
+npx playwright install chromium
+node tests/ui.mjs
+```
+
+The core tests cover PLY encodings, malformed inputs, and interpolation behavior. Browser tests cover startup, rotation with a fixed target and radius, rotation after wheel navigation, interaction-mode recovery, panning, PNG output, camera-pose preservation, and file-loading recovery.
+
+`tests/large-cloud.mjs` is an optional regression test for the original 3,286,152-point sample. That dataset is not distributed with this project. To repeat the test, provide the matching `421005_laser_scan.ply` at `../upload/421005_laser_scan.ply`, set `TEST_CHROME` to a Chromium executable, and run:
+
+```powershell
+node tests/large-cloud.mjs
+```
+
+Validation for this release includes TypeScript checks, seven core tests, Chromium browser tests, a large-cloud regression test, and Windows x64 cross-compilation. Browser validation used software WebGL on Linux. The native executable, WebView2 integration, and native save dialog have not yet been verified on a physical Windows installation. The executable is not commercially code-signed.
+
+## Contributing
+
+Bug reports should include the Windows version, GPU/driver, application version, reproduction steps, and the PLY encoding and approximate vertex count. Include a minimal shareable sample when possible. Please run the type check, core tests, and relevant browser tests before submitting changes.
+
+## License
+
+A project license has not yet been selected. Add a project-level `LICENSE` before publishing an open-source release.
+
+Third-party dependency notices are provided in [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt). Those notices describe the dependencies and do not define the license for this project's own code.
