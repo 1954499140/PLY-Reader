@@ -44,7 +44,7 @@ If the runtime is missing, install the Evergreen x64 runtime from the [Microsoft
 
 | Input | Action |
 | --- | --- |
-| Left-button drag | Rotate around the current target by default |
+| Left-button drag | Rotate around the current target by default (please click the object you need)|
 | Right-button or middle-button drag | Pan |
 | Mouse wheel | Move forward/backward along the cursor ray |
 | Shift + mouse wheel | Move at one tenth of the normal speed |
