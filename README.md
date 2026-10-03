@@ -28,7 +28,7 @@ I am sharing the project in case it is useful to others with similar needs. It i
 
 1. Extract `PLY-Studio-Windows-x64.zip`.
 2. Launch `PLY-Studio.exe` from the extracted `PLY-Studio` folder.
-3. Click **打开 PLY** (Open PLY), or drag a `.ply` file into the viewport.
+3. Click (Open PLY), or drag a `.ply` file into the viewport.
 
 Running the executable does not require Python, Node.js, or Go.
 
